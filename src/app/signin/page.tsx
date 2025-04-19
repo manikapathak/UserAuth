@@ -13,68 +13,60 @@ export default function Page() {
   const [code, setCode] = React.useState('')
   const router = useRouter()
 
-  // Handle submission of the sign-up form
+ 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!isLoaded) return
 
-    // Start the sign-up process using the email and password provided
+    
     try {
       await signUp.create({
         emailAddress,
         password,
       })
 
-      // Send the user an email with the verification code
+     
       await signUp.prepareEmailAddressVerification({
         strategy: 'email_code',
       })
 
-      // Set 'verifying' true to display second form
-      // and capture the OTP code
+      
       setVerifying(true)
     } catch (err: any) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
+      
       console.error(JSON.stringify(err, null, 2))
     }
   }
 
-  // Handle the submission of the verification form
+ 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!isLoaded) return
 
     try {
-      // Use the code the user provided to attempt verification
+      
       const completeSignUp = await signUp.attemptEmailAddressVerification({
         code,
       })
 
-      // If verification was completed, set the session to active
-      // and redirect the user
+    
       if (completeSignUp.status === 'complete') {
         await setActive({ session: completeSignUp.createdSessionId })
         router.push('/')
       } else {
-        // If the status is not complete, check why. User may need to
-        // complete further steps.
+       
         console.error(JSON.stringify(completeSignUp, null, 2))
       }
     }
-    // } catch (err: any) {
-    //   // See https://clerk.com/docs/custom-flows/error-handling
-    //   // for more info on error handling
-    //   console.error('Error:', JSON.stringify(err, null, 2))
-    // }
+   
     catch (err: any) {
         setError(err.errors?.[0]?.longMessage || 'Sign up failed');
       }
   }
 
-  // Display the verification form to capture the OTP code
+  
   if (verifying) {
     return (
       <>
@@ -88,7 +80,7 @@ export default function Page() {
     )
   }
 
-  // Display the initial sign-up form to capture the email and password
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-g bg-[#98E4FF]">
       <form onSubmit={handleSubmit} className="bg-blue-950 p-8 rounded-lg shadow-md w-80 space-y-4">
@@ -116,7 +108,6 @@ export default function Page() {
           required
         />
   
-        {/* CAPTCHA Widget */}
         <div id="clerk-captcha"></div>
   
         <button
