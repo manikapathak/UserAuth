@@ -21,7 +21,7 @@ export default function HomePage() {
       </SignedOut>
 
       <SignedIn>
-        <p className="mb-6 mt-4 text-lg text-white z-10">You're signed in 🎉</p>
+        <p className="mb-6 mt-4 text-lg text-white z-10">You're signed in</p>
         <div className="flex gap-4 items-center">
           <UserButton />
           <Link

@@ -24,7 +24,7 @@ export default function LoginPage() {
         await setActive({ session: result.createdSessionId });
         router.push('/dashboard');
       }
-    } catch (err: any) {
+    } catch (err) {
       setError(err.errors?.[0]?.message || 'Login failed');
     }
   };

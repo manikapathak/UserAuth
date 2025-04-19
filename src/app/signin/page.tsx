@@ -33,7 +33,7 @@ export default function Page() {
 
       
       setVerifying(true)
-    } catch (err: any) {
+    } catch (err) {
       
       console.error(JSON.stringify(err, null, 2))
     }
